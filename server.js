@@ -28,8 +28,17 @@ connectMongoDB()
 //register routes
 app.use('/api/auth', authRoutes)
 
-app.get('', (req, res) => {
-    res.send('Server started successfully')
+const User = require('./models/User')
+
+app.get('', async (req, res) => {
+  try {
+    const user = await User.findById('62df7a3c60becf9047edbe40')
+
+    res.json(user)
+
+} catch (error) {
+    res.status(404).json({message: 'Sorry this user no longer available'})
+}
 })
 
 //start the server

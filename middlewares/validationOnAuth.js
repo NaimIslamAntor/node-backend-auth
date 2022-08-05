@@ -103,4 +103,36 @@ const validationOnLogin = async (req, res, next) => {
 }
 
 
-module.exports = { validationOnRegister, validationOnLogin }
+
+//validate on register
+const validationOnPasswordChange = (req, res, next) => {
+
+    const { password, confirmPassword } = req.body
+
+    const errors = []
+
+    if (!password) {
+        errors.push('Password is required')
+    }else if (password.length < 6) {
+        errors.push('Password must be at least 6 character long')
+    }
+
+    if (!confirmPassword) {
+        errors.push('Confirm Password is required')
+    }
+
+
+    if (password !== confirmPassword) {
+        errors.push('Password and confirm password not matched')
+    }
+
+
+    if (errors.length > 0) {
+        return res.status(422).json({errors})
+    }
+
+    next()
+}
+
+
+module.exports = { validationOnRegister, validationOnLogin, validationOnPasswordChange }
