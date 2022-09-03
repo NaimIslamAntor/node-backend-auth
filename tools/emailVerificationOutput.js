@@ -16,4 +16,22 @@ const emailVerificationOutput = (fName, lName, verificationToken) => {
 
 
 
-module.exports = emailVerificationOutput
+/**
+ * 
+ * @param {string} fName 
+ * @param {string} lName 
+ * @param {string} verificationToken 
+ * @returns {string}
+ */
+
+ const resetPasswordOutput = (fName, lName, verificationToken) => {
+    return `
+    <h1>hi ${fName} ${lName}</h1>
+    <p>Please <a href="${process.env.API_CALL_ORIGIN}/auth/forgot-password/reset/${verificationToken}">click here</a> to Reset your password</P>
+    `
+}
+
+
+
+
+module.exports = {emailVerificationOutput, resetPasswordOutput}

@@ -7,12 +7,12 @@ const protect = (req, res, next) => {
 
 
     if(!authorization){
-        return res.status(403).json({message: 'Sorry you are not authorize to do that'})
+        return res.status(403).json({errors: ['Sorry you are not authorize to do that']})
     }
 
 
     if(!authorization.startsWith('Bearer')){
-        return res.status(403).json({message: 'Sorry token type not supported'})
+        return res.status(403).json({errors: ['Sorry token type not supported']})
     }
 
 
@@ -22,7 +22,7 @@ const protect = (req, res, next) => {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({message: 'Sorry you are not authorize to do that'})
+            return res.status(403).json({errors: ['Sorry you are not authorize to do that']})
         }
 
         req.user = user
@@ -40,7 +40,7 @@ const isUserVerified = (req, res, next) => {
     const { isVerified } = req.user
 
     if (!isVerified) {
-        return res.status(403).json({message: 'Please verify your email first'})
+        return res.status(403).json({errors: ['Please verify your email first']})
     }
 
     next()
@@ -53,7 +53,7 @@ const isUserNotVerified = (req, res, next) => {
     const { isVerified } = req.user
 
     if (isVerified) {
-        return res.status(403).json({message: 'You are already a verified user'})
+        return res.status(403).json({errors: ['You are already a verified user']})
     }
 
     next()

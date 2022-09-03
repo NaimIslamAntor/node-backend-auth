@@ -2,8 +2,8 @@
 const express = require('express')
 const rateLimit = require('express-rate-limit')
 
-const { register, login, resendVerificationEmail, verifyUser, changePassword } = require('../controllers/authController')
-const { validationOnRegister, validationOnLogin, validationOnPasswordChange } = require('../middlewares/validationOnAuth')
+const { register, login, resendVerificationEmail, verifyUser, changePassword, searchUser, sendForgotVerifyEmail, resetPassword } = require('../controllers/authController')
+const { validationOnRegister, validationOnLogin, validationOnPasswordChange, validationOnPasswordReset } = require('../middlewares/validationOnAuth')
 
 const { sendVerificationEmail } = require('../middlewares/sendVerificationEmail')
 const { protect, isUserNotVerified, isUserVerified } = require('../middlewares/protect')
@@ -30,6 +30,16 @@ router.post('/resendverificationemail', limiter, protect, isUserNotVerified, res
 router.put('/verifyemail/:verifyToken', protect, isUserNotVerified, verifyUser)
 
 router.patch('/password-change', protect, isUserVerified, validationOnPasswordChange, changePassword)
+
+router.get('/forgot-password/search', searchUser)
+
+router.post('/forgot-password/sendforgot/verify', limiter, sendForgotVerifyEmail)
+
+
+router.patch('/forgot-password/reset/:resettoken', validationOnPasswordReset, resetPassword)
+
+
+// router.get('/profile/:id', protect, userInfo)
 
 
 
