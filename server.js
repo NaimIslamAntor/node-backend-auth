@@ -28,17 +28,9 @@ connectMongoDB()
 //register routes
 app.use('/api/auth', authRoutes)
 
-const User = require('./models/User')
 
-app.get('', async (req, res) => {
-  try {
-    const user = await User.findById('62df7a3c60becf9047edbe40')
-
-    res.json(user)
-
-} catch (error) {
-    res.status(404).json({message: 'Sorry this user no longer available'})
-}
+app.all('*', (req, res) => {
+  res.status(404).json({errors: ['404 endpoint doesnot exist']})
 })
 
 //start the server
